@@ -10,6 +10,7 @@ service Catalog {
 
 message GetProductRequest {
   string id = 1;
+  bool simulate_failure = 2;
 }
 
 message ProductReply {
