@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - run: dotnet restore src/Gateway.Api/Gateway.Api.csproj
+      - run: dotnet restore src/Catalog.Grpc/Catalog.Grpc.csproj
+      - run: dotnet build src/Gateway.Api/Gateway.Api.csproj -c Release --no-restore
+      - run: dotnet build src/Catalog.Grpc/Catalog.Grpc.csproj -c Release --no-restore
