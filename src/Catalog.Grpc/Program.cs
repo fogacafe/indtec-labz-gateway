@@ -1,3 +1,4 @@
+using Grpc.Core;
 using Indtec.Labz.Gateway.Contracts;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -18,9 +19,13 @@ app.Run();
 
 sealed class CatalogService : Catalog.CatalogBase
 {
-    public override async Task<ProductReply> GetProduct(GetProductRequest request, Grpc.Core.ServerCallContext context)
+    public override async Task<ProductReply> GetProduct(GetProductRequest request, ServerCallContext context)
     {
         await Task.Delay(40, context.CancellationToken);
+
+        if (request.SimulateFailure)
+            throw new RpcException(new Status(StatusCode.Unavailable, "Controlled LABZ failure: catalog unavailable."));
+
         return new ProductReply
         {
             Id = request.Id,
