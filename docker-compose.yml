@@ -15,7 +15,7 @@ services:
   catalog:
     build:
       context: .
-      dockerfile: src/Catalog.Grpc/Dockerfile
+      dockerfile: src/Catalog.Grpc/Containerfile
     environment:
       ASPNETCORE_URLS: http://+:8080
       OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
@@ -27,7 +27,7 @@ services:
   gateway:
     build:
       context: .
-      dockerfile: src/Gateway.Api/Dockerfile
+      dockerfile: src/Gateway.Api/Containerfile
     environment:
       ASPNETCORE_URLS: http://+:8080
       Catalog__Address: http://catalog:8080
